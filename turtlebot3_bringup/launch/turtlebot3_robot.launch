@@ -1,6 +1,10 @@
 <launch>
   <arg name="multi_robot_name" default=""/>
   <arg name="set_lidar_frame_id" default="base_scan"/>
+  <arg name="base_frame_id" default="base_footprint"/>
+  <arg name="laser_x" default="0"/>
+  <arg name="laser_y" default="0"/>
+  <arg name="laser_z" default="0.17"/>
 
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_core.launch">
     <arg name="multi_robot_name" value="$(arg multi_robot_name)"/>
@@ -8,6 +12,7 @@
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_lidar.launch">
     <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
   </include>
+  <node pkg="tf" type="static_transform_publisher" name="laser_tf_publisher" args="$(arg laser_x) $(arg laser_y) $(arg laser_z) 0 0 0 $(arg base_frame_id) $(arg set_lidar_frame_id) 50" />
 
   <node pkg="turtlebot3_bringup" type="turtlebot3_diagnostics" name="turtlebot3_diagnostics" output="screen"/>
 </launch>
